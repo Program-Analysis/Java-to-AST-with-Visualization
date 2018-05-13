@@ -10,8 +10,8 @@ import structure.MyMethodNode;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		String FilePath = "/Users/xubowen/Desktop/Study/Research/201706-KnowledgeGraphandAPI/ASTGeneration/testdata/test.java";
-		String outputDir = "/Users/xubowen/Desktop/Study/Research/201706-KnowledgeGraphandAPI/ASTGeneration/output/";
+		String FilePath = "PathofTestJavaFile";
+		String outputDir = "OutputDir";
 		File f = new File(FilePath);
 		ASTGenerator astGenerator = new ASTGenerator(f);
 		List<MyMethodNode> methodNodeList = astGenerator.getMethodNodeList();
