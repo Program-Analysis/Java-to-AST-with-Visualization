@@ -7,6 +7,11 @@ import structure.MyMethodNode;
 
 public class ASTtoDOT {
 
+	/**
+	 * Convert a method node to .dot string
+	 * @param m
+	 * @return
+	 */
 	public static String ASTtoDotParser(MyMethodNode m) {
 		String str = "digraph \"DirectedGraph\" {\n";
 		// name
@@ -15,9 +20,9 @@ public class ASTtoDOT {
 			ASTNode astNode = mn.astNode;
 			int hashcode = astNode.hashCode();
 			int nodeType = astNode.getNodeType();
-			int lineNum = mn.lineNum;
-			str += ("\"" + String.valueOf(hashcode) + "\" [ type=" + String.valueOf(nodeType) + " line="
-					+ String.valueOf(lineNum) + " ]\n");
+			str += ("\"" + String.valueOf(hashcode) + "\" [ label=\""+buildLabel(mn)+"\" type=" + String.valueOf(nodeType) + " startLineNumber="
+					+ String.valueOf(mn.startLineNum)+" endLineNumber="
+							+ String.valueOf(mn.endLineNum) + " ]\n");
 		}
 		for (int[] k : m.mapping) {
 			int pHashcode = k[0];
@@ -26,5 +31,16 @@ public class ASTtoDOT {
 		}
 		str += "}\n";
 		return str;
+	}
+	
+	/**
+	 * Configure the label, i.e., what you want to display in the visulization
+	 * @param node
+	 * @return
+	 */
+	public static String buildLabel(MyASTNode node) {
+		String contentString=node.astNode.toString().replace("\n", " ").replace("\"", "\\\"").replace("  ", " ");
+		String nodeType=ASTNode.nodeClassForType(node.astNode.getNodeType()).getName().replace("org.eclipse.jdt.core.dom.", "");
+		return "("+contentString+","+nodeType+","+node.startLineNum+","+node.endLineNum+")";
 	}
 }

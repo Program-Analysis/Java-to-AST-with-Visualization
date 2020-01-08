@@ -9,9 +9,15 @@ import main.ASTGenerator;
 import structure.MyMethodNode;
 
 public class Main {
+	
+	/**
+	 * given the path of a java program which you want to parse and the output directory
+	 * @param args
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException {
-		String FilePath = "PathofTestJavaFile";
-		String outputDir = "OutputDir";
+		String FilePath = "/Users/Bowen/eclipse-workspace/javaparser/testdata/HelloWorld.java";
+		String outputDir = "/Users/Bowen/eclipse-workspace/javaparser/output/";
 		File f = new File(FilePath);
 		ASTGenerator astGenerator = new ASTGenerator(f);
 		List<MyMethodNode> methodNodeList = astGenerator.getMethodNodeList();

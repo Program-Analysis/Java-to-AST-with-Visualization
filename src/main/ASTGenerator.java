@@ -1,8 +1,6 @@
 package main;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,43 +13,31 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import main.MethodNodeVisitor;
 import structure.MyMethodNode;
 import structure.MyASTNode;
+import util.FileUtil;
 
 public class ASTGenerator {
 
 	public List<MyMethodNode> methodNodeList = new ArrayList<MyMethodNode>();
 
 	public ASTGenerator(File f) {
-		// TODO Auto-generated constructor stub
 		ParseFile(f);
 	}
 
+	/**
+	 * get function for methodNodeList
+	 * @return
+	 */
 	public List<MyMethodNode> getMethodNodeList() {
 		return methodNodeList;
 	}
 
-	// read file content into a string
-	public String readFileToString(String filePath) throws IOException {
-		StringBuilder fileData = new StringBuilder(1000);
-		BufferedReader reader = new BufferedReader(new FileReader(filePath));
-
-		char[] buf = new char[10];
-		int numRead = 0;
-		while ((numRead = reader.read(buf)) != -1) {
-			// System.out.println(numRead);
-			String readData = String.valueOf(buf, 0, numRead);
-			fileData.append(readData);
-			buf = new char[1024];
-		}
-
-		reader.close();
-
-		return fileData.toString();
-	}
-
-	// use ASTParse to parse string
-	public void parse(String str) {
-		ASTParser parser = ASTParser.newParser(AST.JLS8);
-		parser.setSource(str.toCharArray());
+	/**
+	 * use ASTParse to parse string
+	 * @param srcStr
+	 */
+	public void parse(String srcStr) {
+		ASTParser parser = ASTParser.newParser(AST.JLS3);
+		parser.setSource(srcStr.toCharArray());
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 
 		final CompilationUnit cu = (CompilationUnit) parser.createAST(null);
@@ -69,7 +55,8 @@ public class ASTGenerator {
 			for (ASTNode node : astnodes) {
 				MyASTNode myNode = new MyASTNode();
 				myNode.astNode = node;
-				myNode.lineNum = cu.getLineNumber(node.getStartPosition());
+				myNode.startLineNum = cu.getLineNumber(node.getStartPosition());
+				myNode.endLineNum = cu.getLineNumber(node.getStartPosition()+node.getLength());
 				// add to nodeList
 				mNode.nodeList.add(myNode);
 				// add to mapping
@@ -87,30 +74,11 @@ public class ASTGenerator {
 		// System.out.print(ast);
 	}
 
-	// loop directory to get file list
-	public void ParseFilesInDir() throws IOException {
-		File dirs = new File(".");
-		String dirPath = dirs.getCanonicalPath() + File.separator + "src" + File.separator;
-
-		File root = new File(dirPath);
-		// System.out.println(rootDir.listFiles());
-		File[] files = root.listFiles();
-		String filePath = null;
-
-		for (File f : files) {
-			filePath = f.getAbsolutePath();
-			if (f.isFile()) {
-				parse(readFileToString(filePath));
-			}
-		}
-	}
-
-	// loop directory to get file list
 	public void ParseFile(File f) {
 		String filePath = f.getAbsolutePath();
 		if (f.isFile()) {
 			try {
-				parse(readFileToString(filePath));
+				parse(FileUtil.readFileToString(filePath));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
