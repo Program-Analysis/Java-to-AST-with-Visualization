@@ -16,8 +16,8 @@ public class Main {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		String FilePath = "/Users/Bowen/eclipse-workspace/javaparser/testdata/HelloWorld.java";
-		String outputDir = "/Users/Bowen/eclipse-workspace/javaparser/output/";
+		String FilePath = "PATH/HelloWorld.java";
+		String outputDir = "PATH/output/";
 		File f = new File(FilePath);
 		ASTGenerator astGenerator = new ASTGenerator(f);
 		List<MyMethodNode> methodNodeList = astGenerator.getMethodNodeList();
