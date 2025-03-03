@@ -1,0 +1,24 @@
+digraph "DirectedGraph" {
+graph [label = "bart", labelloc=t, concentrate = true];
+"1686369710" [ label=<<b>Method<br/>Declaration</b><br/>int bart(int x) ... } > type=31 startLineNumber=3 endLineNumber=3 ]
+"194706439" [ label=<<b>Primitive<br/>Type</b><br/>int> type=39 startLineNumber=3 endLineNumber=3 ]
+"942518407" [ label=<<b><font color="blue">Simple<br/>Name</font></b><br/>bart> type=42 startLineNumber=3 endLineNumber=3 ]
+"1943325854" [ label=<<b>Single<br/>Variable<br/>Declaration</b><br/>int x> type=44 startLineNumber=3 endLineNumber=3 ]
+"134310351" [ label=<<b>Primitive<br/>Type</b><br/>int> type=39 startLineNumber=3 endLineNumber=3 ]
+"1411892748" [ label=<<b><font color="blue">Simple<br/>Name</font></b><br/>x> type=42 startLineNumber=3 endLineNumber=3 ]
+"22805895" [ label=<<b>Block</b><br/>{  return x + 1 ... } > type=8 startLineNumber=3 endLineNumber=3 ]
+"1413378318" [ label=<<b>Return<br/>Statement</b><br/>return x + 1; > type=41 startLineNumber=3 endLineNumber=3 ]
+"1475491159" [ label=<<b>Infix<br/>Expression</b><br/>x + 1> type=27 startLineNumber=3 endLineNumber=3 ]
+"1024429571" [ label=<<b><font color="blue">Simple<br/>Name</font></b><br/>x> type=42 startLineNumber=3 endLineNumber=3 ]
+"1667689440" [ label=<<b><font color="red">Number<br/>Literal</font></b><br/>1> type=34 startLineNumber=3 endLineNumber=3 ]
+"1686369710" -> "194706439"
+"1686369710" -> "942518407"
+"1686369710" -> "1943325854"
+"1943325854" -> "134310351"
+"1943325854" -> "1411892748"
+"1686369710" -> "22805895"
+"22805895" -> "1413378318"
+"1413378318" -> "1475491159"
+"1475491159" -> "1024429571"
+"1475491159" -> "1667689440"
+}

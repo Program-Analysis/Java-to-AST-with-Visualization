@@ -4,6 +4,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 
 import structure.MyASTNode;
 import structure.MyMethodNode;
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 public class ASTtoDOT {
 
@@ -20,7 +21,7 @@ public class ASTtoDOT {
 			ASTNode astNode = mn.astNode;
 			int hashcode = astNode.hashCode();
 			int nodeType = astNode.getNodeType();
-			str += ("\"" + String.valueOf(hashcode) + "\" [ label=\""+buildLabel(mn)+"\" type=" + String.valueOf(nodeType) + " startLineNumber="
+			str += ("\"" + String.valueOf(hashcode) + "\" [ label=<"+buildLabel(mn)+"> type=" + String.valueOf(nodeType) + " startLineNumber="
 					+ String.valueOf(mn.startLineNum)+" endLineNumber="
 							+ String.valueOf(mn.endLineNum) + " ]\n");
 		}
@@ -41,6 +42,17 @@ public class ASTtoDOT {
 	public static String buildLabel(MyASTNode node) {
 		String contentString=node.astNode.toString().replace("\n", " ").replace("\"", "\\\"").replace("  ", " ");
 		String nodeType=ASTNode.nodeClassForType(node.astNode.getNodeType()).getName().replace("org.eclipse.jdt.core.dom.", "");
-		return "("+contentString+","+nodeType+","+node.startLineNum+","+node.endLineNum+")";
+
+		nodeType = nodeType.replaceAll("(?<!^)([A-Z])", "<br/>$1");
+
+		if(nodeType.toLowerCase().contains("name")) {
+			nodeType = "<font color=\"blue\">"+nodeType+"</font>";
+		}
+		else if(nodeType.toLowerCase().contains("literal")) {
+			nodeType = "<font color=\"red\">"+nodeType+"</font>";
+		}
+
+		return "<b>"+nodeType+"</b><br/>"+(contentString.length()>15 ? escapeHtml(contentString.substring(0,15))+" ... "+escapeHtml(contentString.substring(contentString.length()-2)) : escapeHtml(contentString));
+
 	}
 }
